@@ -3,9 +3,20 @@ import ItemCard from "../components/ItemCard";
 import SearchBar from "../components/SearchBar";
 import FilterPanel from "../components/FilterPanel";
 
-const items = [
-  {
+type ExploreItem = {
+  id: number;
+  mongoId?: string;
+  image: string;
+  title: string;
+  category: string;
+  location: string;
+  price: number;
+  rating: number;
+};
+
+const items: ExploreItem[] = [  {
     id: 1,
+    mongoId: "6ab00616e2a359a0ef34eae2",
     image:
       "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=900&q=80",
     title: "Sony A7 IV Camera",
@@ -137,15 +148,16 @@ const ExplorePage = () => {
       {filteredItems.length > 0 ? (
         <div className="items-grid">
           {filteredItems.map((item) => (
-            <ItemCard
-              key={item.id}
-              image={item.image}
-              title={item.title}
-              category={item.category}
-              location={item.location}
-              price={item.price}
-              rating={item.rating}
-            />
+         <ItemCard
+  key={item.id}
+  itemId={item.mongoId}
+  image={item.image}
+  title={item.title}
+  category={item.category}
+  location={item.location}
+  price={item.price}
+  rating={item.rating}
+/>
           ))}
         </div>
       ) : (

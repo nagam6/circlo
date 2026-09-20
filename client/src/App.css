@@ -499,3 +499,113 @@ a {
     min-height: 300px;
   }
 }
+.item-details-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 6% 70px;
+}
+
+.back-to-explore {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 24px;
+  color: #496575;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.back-to-explore:hover {
+  color: #169b91;
+}
+
+.item-details-wrapper .item-details-page {
+  padding: 0;
+}
+
+.item-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.item-card-image-wrapper > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.item-card-link:hover h3 {
+  color: #169b91;
+}
+
+.item-details-state {
+  min-height: calc(100vh - 76px);
+  padding: 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafb;
+}
+
+.state-card {
+  width: min(500px, 100%);
+  padding: 48px 32px;
+  text-align: center;
+  background: white;
+  border: 1px solid #e5ecef;
+  border-radius: 24px;
+  box-shadow: 0 14px 40px rgba(16, 42, 67, 0.08);
+}
+
+.state-card h2 {
+  margin: 18px 0 10px;
+  color: #102a43;
+}
+
+.state-card p {
+  margin: 0 auto 26px;
+  max-width: 380px;
+  line-height: 1.6;
+  color: #627d8c;
+}
+
+.state-icon {
+  font-size: 46px;
+}
+
+.state-back-button {
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: #173b57;
+  color: white;
+  font-weight: 700;
+}
+
+.loading-spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto;
+  border: 4px solid #dfeaec;
+  border-top-color: #169b91;
+  border-radius: 50%;
+  animation: circlo-spin 0.8s linear infinite;
+}
+
+@keyframes circlo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.request-rental-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .item-details-wrapper {
+    padding: 24px 5% 50px;
+  }
+}

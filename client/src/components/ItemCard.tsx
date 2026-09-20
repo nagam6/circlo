@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
+
 type ItemCardProps = {
+  itemId?: string;
   image: string;
   title: string;
   category: string;
@@ -8,6 +11,7 @@ type ItemCardProps = {
 };
 
 const ItemCard = ({
+  itemId,
   image,
   title,
   category,
@@ -15,31 +19,56 @@ const ItemCard = ({
   price,
   rating,
 }: ItemCardProps) => {
+  const cardContent = (
+    <>
+      <div className="item-card-top">
+        <span className="item-category">{category}</span>
+        <span className="item-rating">★ {rating}</span>
+      </div>
+
+      <h3>{title}</h3>
+
+      <p className="item-location">📍 {location}</p>
+
+      <div className="item-price">
+        <strong>₪{price}</strong>
+        <span> / day</span>
+      </div>
+    </>
+  );
+
   return (
     <article className="item-card">
       <div className="item-card-image-wrapper">
-        <img src={image} alt={title} className="item-card-image" />
+        {itemId ? (
+          <Link to={`/items/${itemId}`}>
+            <img src={image} alt={title} className="item-card-image" />
+          </Link>
+        ) : (
+          <img src={image} alt={title} className="item-card-image" />
+        )}
 
-        <button className="favorite-button" aria-label="Save item">
+        <button
+          className="favorite-button"
+          aria-label={`Save ${title}`}
+          type="button"
+        >
           ♡
         </button>
       </div>
 
-      <div className="item-card-content">
-        <div className="item-card-top">
-          <span className="item-category">{category}</span>
-          <span className="item-rating">★ {rating}</span>
+      {itemId ? (
+        <Link
+          to={`/items/${itemId}`}
+          className="item-card-content item-card-link"
+        >
+          {cardContent}
+        </Link>
+      ) : (
+        <div className="item-card-content">
+          {cardContent}
         </div>
-
-        <h3>{title}</h3>
-
-        <p className="item-location">{location}</p>
-
-        <div className="item-price">
-          <strong>₪{price}</strong>
-          <span> / day</span>
-        </div>
-      </div>
+      )}
     </article>
   );
 };
