@@ -609,3 +609,135 @@ a {
     padding: 24px 5% 50px;
   }
 }
+.availability-picker {
+  margin: 28px 0;
+  padding: 22px;
+  border: 1px solid #e1e9ed;
+  border-radius: 16px;
+  background: #f9fbfc;
+}
+
+.availability-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.availability-heading h3 {
+  margin: 4px 0 0;
+  color: #102a43;
+}
+
+.availability-label {
+  margin: 0;
+  color: #169b91;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.availability-badge {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #e7f7f2;
+  color: #13785f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.availability-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.availability-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #496575;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.availability-inputs input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d6e1e6;
+  border-radius: 10px;
+  background: white;
+  color: #102a43;
+  font: inherit;
+}
+
+.availability-inputs input:focus {
+  outline: none;
+  border-color: #169b91;
+}
+
+.availability-error {
+  margin: 16px 0 0;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: #fff0f0;
+  color: #ae4242;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.availability-success {
+  margin: 16px 0 0;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: #e7f7f2;
+  color: #13785f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.blocked-periods {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #e1e9ed;
+}
+
+.blocked-periods h4 {
+  margin: 0 0 12px;
+  color: #102a43;
+}
+
+.blocked-period {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: white;
+  color: #627d8c;
+  font-size: 13px;
+}
+
+.no-blocked-periods {
+  margin: 16px 0 0;
+  color: #8299a6;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .availability-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .availability-heading {
+    flex-direction: column;
+  }
+
+  .blocked-period {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

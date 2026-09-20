@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import AvailabilityPicker from "../components/AvailabilityPicker";
 
 type Item = {
   _id: string;
@@ -168,6 +169,10 @@ const ItemDetailsPage = () => {
               ? "Available for rent"
               : "Currently unavailable"}
           </div>
+
+          <AvailabilityPicker
+            itemId={item._id}
+          />
 
           <button
             className="request-rental-button"
