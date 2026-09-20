@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 const conditionReportsRouter = require("./routes/conditionReports");
-
+const itemsRouter = require("./routes/items");
 dotenv.config();
 
 const app = express();
@@ -20,6 +20,7 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/condition-reports", conditionReportsRouter);
+app.use("/api/items", itemsRouter);
 
 const PORT = process.env.PORT || 5000;
 
