@@ -43,6 +43,6 @@ const conditionReportSchema = new mongoose.Schema({
 const ConditionReport = mongoose.model(
   "ConditionReport",
   conditionReportSchema
-);
+  );
 
 module.exports = ConditionReport;
