@@ -86,4 +86,14 @@ bookingSchema.index({
   status: 1,
 });
 
+bookingSchema.index({
+  renterId: 1,
+  createdAt: -1,
+});
+
+bookingSchema.index({
+  ownerId: 1,
+  createdAt: -1,
+});
+
 module.exports = mongoose.model("Booking", bookingSchema);
