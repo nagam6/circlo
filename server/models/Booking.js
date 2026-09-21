@@ -96,4 +96,27 @@ bookingSchema.index({
   createdAt: -1,
 });
 
+bookingSchema.statics.hasOverlap = async function (
+  itemId,
+  requestedStart,
+  requestedEnd
+) {
+  const overlappingBooking = await this.findOne({
+    itemId,
+
+    status: {
+      $in: ["accepted", "active"],
+    },
+
+    startAt: {
+      $lt: requestedEnd,
+    },
+
+    endAt: {
+      $gt: requestedStart,
+    },
+  });
+
+  return Boolean(overlappingBooking);
+};
 module.exports = mongoose.model("Booking", bookingSchema);
