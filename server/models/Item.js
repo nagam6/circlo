@@ -19,6 +19,19 @@ const itemSchema = new mongoose.Schema(
       enum: ["Cameras", "Lighting", "Audio & Recording"],
     },
 
+    ownerId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  required: true,
+  index: true,
+},
+
+deposit: {
+  type: Number,
+  default: 0,
+  min: 0,
+},
+
     location: {
       type: String,
       required: true,
