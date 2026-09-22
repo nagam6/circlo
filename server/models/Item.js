@@ -27,9 +27,15 @@ const itemSchema = new mongoose.Schema(
 },
 
 deposit: {
+ 
   type: Number,
   default: 0,
-  min: 0,
+  min: [0, "Deposit cannot be negative"],
+  validate: {
+    validator: Number.isFinite,
+    message: "Deposit must be a valid number",
+  },
+
 },
 
     location: {
@@ -38,9 +44,15 @@ deposit: {
     },
 
     pricePerDay: {
-      type: Number,
-      required: true,
-      min: 0,
+     
+  type: Number,
+  required: [true, "Price per day is required"],
+  min: [0, "Price per day cannot be negative"],
+  validate: {
+    validator: Number.isFinite,
+    message: "Price per day must be a valid number",
+  
+},
     },
 
     images: {
