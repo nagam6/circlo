@@ -6,13 +6,14 @@ const mongoose = require("mongoose");
 
 const conditionReportsRouter = require("./routes/conditionReports");
 const itemsRouter = require("./routes/items");
+const authRouter = require("./routes/auth");
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/auth", authRouter);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     message: "Circlo API is running",
