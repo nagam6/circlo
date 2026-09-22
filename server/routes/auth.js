@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -153,4 +154,11 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+// GET /api/auth/me
+router.get("/me", auth, async (req, res) => {
+  return res.status(200).json({
+    user: req.user,
+  });
+});
+
 module.exports = router;
