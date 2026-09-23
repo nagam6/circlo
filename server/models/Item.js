@@ -76,5 +76,9 @@ deposit: {
     timestamps: true,
   }
 );
+// KAN-44: Indexes for owner listings and Explore
+itemSchema.index({ ownerId: 1, createdAt: -1 });
+itemSchema.index({ category: 1, available: 1 });
+itemSchema.index({ title: "text", description: "text" });
 
 module.exports = mongoose.model("Item", itemSchema);
