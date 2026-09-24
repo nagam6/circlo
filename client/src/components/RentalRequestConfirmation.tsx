@@ -6,6 +6,7 @@ type RentalRequestConfirmationProps = {
   endAt: string;
   onConfirm: () => void;
   onCancel: () => void;
+  loading?: boolean;
 };
 
 const RentalRequestConfirmation = ({
@@ -16,7 +17,9 @@ const RentalRequestConfirmation = ({
   endAt,
   onConfirm,
   onCancel,
+  loading = false,
 }: RentalRequestConfirmationProps) => {
+
   const start = new Date(startAt);
   const end = new Date(endAt);
 
@@ -110,13 +113,16 @@ const RentalRequestConfirmation = ({
             Go Back
           </button>
 
-          <button
-            type="button"
-            className="primary-confirmation-button"
-            onClick={onConfirm}
-          >
-            Confirm Rental Request
-          </button>
+    <button
+  type="button"
+  className="primary-confirmation-button"
+  onClick={onConfirm}
+  disabled={loading}
+>
+  {loading
+    ? "Sending Request..."
+    : "Confirm Rental Request"}
+</button>
         </div>
       </div>
     </div>
