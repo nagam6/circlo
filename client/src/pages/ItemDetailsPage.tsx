@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AvailabilityPicker from "../components/AvailabilityPicker";
+import RentalRequestConfirmation from "../components/RentalRequestConfirmation";
 
 type Item = {
   _id: string;
@@ -9,6 +10,7 @@ type Item = {
   category: string;
   location: string;
   pricePerDay: number;
+  deposit?: number;
   images: string[];
   rating: number;
   available: boolean;
@@ -23,6 +25,9 @@ const ItemDetailsPage = () => {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [startAt, setStartAt] = useState("");
+  const [endAt, setEndAt] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -170,20 +175,42 @@ const ItemDetailsPage = () => {
               : "Currently unavailable"}
           </div>
 
-          <AvailabilityPicker
-            itemId={item._id}
-          />
+         <AvailabilityPicker
+          itemId={item._id}
+          onDatesChange={(start, end) => {
+            setStartAt(start);
+            setEndAt(end);
+          }}
+         />
 
-          <button
-            className="request-rental-button"
-            disabled={!item.available}
-          >
-            {item.available
-              ? "Request Rental"
-              : "Unavailable"}
-          </button>
+    <button
+  className="request-rental-button"
+  disabled={
+    !item.available ||
+    !startAt ||
+    !endAt
+  }
+  onClick={() => setShowConfirmation(true)}
+>
+  {item.available
+    ? "Request Rental"
+    : "Unavailable"}
+</button>
         </div>
       </div>
+      {showConfirmation && (
+  <RentalRequestConfirmation
+    title={item.title}
+    pricePerDay={item.pricePerDay}
+    deposit={item.deposit ?? 0}
+    startAt={startAt}
+    endAt={endAt}
+    onCancel={() => setShowConfirmation(false)}
+    onConfirm={() => {
+      setShowConfirmation(false);
+    }}
+  />
+)}
     </section>
   );
 };
