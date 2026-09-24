@@ -2,7 +2,56 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Item = require("../models/Item");
 const Availability = require("../models/Availability");
+const auth = require("../middleware/auth");
 const router = express.Router();
+// POST /api/items
+router.post("/", auth, async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      condition,
+      category,
+      deposit,
+      location,
+      pricePerDay,
+      hourlyPrice,
+      images,
+    } = req.body;
+
+    const item = new Item({
+      title,
+      description,
+      condition,
+      category,
+      deposit,
+      location,
+      pricePerDay,
+      hourlyPrice,
+      images,
+      ownerId: req.user._id,
+    });
+
+    await item.save();
+
+    return res.status(201).json(item);
+  } catch (error) {
+    if (error.name === "ValidationError" || error.name === "CastError") {
+      return res.status(400).json({
+        message: "Invalid item data.",
+        errors: Object.values(error.errors || {}).map(
+          (fieldError) => fieldError.message
+        ),
+      });
+    }
+
+    console.error("Error creating item:", error);
+
+    return res.status(500).json({
+      message: "Failed to create item.",
+    });
+  }
+});
 
 // GET /api/items/:id/availability
 router.get("/:id/availability", async (req, res) => {
