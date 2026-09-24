@@ -29,6 +29,10 @@ const ItemDetailsPage = () => {
   const [endAt, setEndAt] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  const [bookingLoading, setBookingLoading] = useState(false);
+const [bookingError, setBookingError] = useState("");
+const [bookingSuccess, setBookingSuccess] = useState("");
+
   useEffect(() => {
     const fetchItem = async () => {
       try {
@@ -73,6 +77,66 @@ const ItemDetailsPage = () => {
     }
   }, [id]);
 
+const handleConfirmRental = async () => {
+  try {
+    setBookingLoading(true);
+    setBookingError("");
+    setBookingSuccess("");
+
+    const token = localStorage.getItem("circlo_token");
+
+    if (!token) {
+      setBookingError(
+        "Please log in before requesting a rental."
+      );
+      return;
+    }
+
+    const response = await fetch(
+      `${API_URL}/api/bookings`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          itemId: item?._id,
+          startAt,
+          endAt,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const requirementErrors = Array.isArray(data.errors)
+        ? data.errors.join(" ")
+        : "";
+
+      throw new Error(
+        requirementErrors ||
+          data.message ||
+          "Failed to create rental request."
+      );
+    }
+
+    setBookingSuccess(
+      "Rental request sent successfully!"
+    );
+
+    setShowConfirmation(false);
+  } catch (error) {
+    setBookingError(
+      error instanceof Error
+        ? error.message
+        : "Failed to create rental request."
+    );
+  } finally {
+    setBookingLoading(false);
+  }
+};
   if (loading) {
     return (
       <section className="item-details-state">
@@ -196,6 +260,17 @@ const ItemDetailsPage = () => {
     ? "Request Rental"
     : "Unavailable"}
 </button>
+{bookingError && (
+  <p className="availability-error">
+    {bookingError}
+  </p>
+)}
+
+{bookingSuccess && (
+  <p className="availability-success">
+    ✓ {bookingSuccess}
+  </p>
+)}
         </div>
       </div>
       {showConfirmation && (
@@ -206,9 +281,8 @@ const ItemDetailsPage = () => {
     startAt={startAt}
     endAt={endAt}
     onCancel={() => setShowConfirmation(false)}
-    onConfirm={() => {
-      setShowConfirmation(false);
-    }}
+ onConfirm={handleConfirmRental}
+  loading={bookingLoading}
   />
 )}
     </section>
