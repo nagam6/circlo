@@ -224,4 +224,66 @@ router.get("/my-rentals", auth, async (req, res) => {
   }
 });
 
+// GET /api/bookings/:id
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid booking ID.",
+      });
+    }
+
+    const booking = await Booking.findById(id)
+      .populate(
+        "itemId",
+        "title description images location category pricePerDay deposit"
+      )
+      .populate(
+        "ownerId",
+        "name email rating"
+      )
+      .populate(
+        "renterId",
+        "name email rating"
+      );
+
+    if (!booking) {
+      return res.status(404).json({
+        message: "Booking not found.",
+      });
+    }
+
+    const userId = req.user._id.toString();
+
+    const isRenter =
+      booking.renterId?._id?.toString() === userId;
+
+    const isOwner =
+      booking.ownerId?._id?.toString() === userId;
+
+    if (!isRenter && !isOwner) {
+      return res.status(403).json({
+        message:
+          "You are not authorized to view this booking.",
+      });
+    }
+
+    return res.status(200).json({
+      booking,
+    });
+  } catch (error) {
+    console.error(
+      "Get booking details error:",
+      error
+    );
+
+    return res.status(500).json({
+      message:
+        "Failed to load booking details.",
+    });
+  }
+});
+
 module.exports = router;

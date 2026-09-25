@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Item = {
   _id: string;
@@ -189,6 +190,9 @@ const MyRentalsPage = () => {
       ) : (
         <div className="rentals-list">
           {rentals.map((booking) => (
+            <Link to={`/bookings/${booking._id}`}
+  className="rental-card-link"
+>
             <article
               className="rental-card"
               key={booking._id}
@@ -256,6 +260,7 @@ const MyRentalsPage = () => {
                 </div>
               </div>
             </article>
+</Link>
           ))}
         </div>
       )}

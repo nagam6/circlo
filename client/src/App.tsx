@@ -6,6 +6,7 @@ import ExplorePage from "./pages/ExplorePage";
 import ItemDetailsPage from "./pages/ItemDetailsPage";
 import LoginPage from "./pages/LoginPage";
 import MyRentalsPage from "./pages/MyRentalsPage";
+import BookingDetailsPage from "./pages/BookingDetailsPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/items/:id" element={<ItemDetailsPage />} />
           <Route path="/my-rentals" element={<MyRentalsPage />} />
+          <Route path="/bookings/:id" element={<BookingDetailsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
