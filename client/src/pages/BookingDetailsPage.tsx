@@ -91,6 +91,20 @@ const BookingDetailsPage = () => {
   const formatDate = (date: string) =>
     new Date(date).toLocaleDateString();
 
+  const bookingSteps = [
+  "pending",
+  "accepted",
+  "ready_for_pickup",
+  "active",
+  "returned",
+  "inspection",
+  "completed",
+];
+
+const currentStepIndex = bookingSteps.indexOf(
+  booking.status
+);
+
   return (
     <main className="booking-details-page">
       <div className="booking-details-header">
@@ -138,6 +152,53 @@ const BookingDetailsPage = () => {
         )}
       </section>
 
+        <section className="booking-timeline-card">
+  <h2>Rental progress</h2>
+
+  <div className="booking-timeline">
+    {bookingSteps.map((step, index) => {
+      const isCompleted =
+        currentStepIndex >= index;
+
+      const isCurrent =
+        booking.status === step;
+
+      return (
+        <div
+          className="timeline-step"
+          key={step}
+        >
+          <div
+            className={`timeline-dot ${
+              isCompleted ? "completed" : ""
+            } ${isCurrent ? "current" : ""}`}
+          />
+
+          {index < bookingSteps.length - 1 && (
+            <div
+              className={`timeline-line ${
+                currentStepIndex > index
+                  ? "completed"
+                  : ""
+              }`}
+            />
+          )}
+
+          <span
+            className={
+              isCurrent
+                ? "timeline-label current"
+                : "timeline-label"
+            }
+          >
+            {step.replaceAll("_", " ")}
+          </span>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
       <section className="booking-details-card">
         <h2>Price summary</h2>
 
@@ -161,6 +222,7 @@ const BookingDetailsPage = () => {
           <strong>₪{booking.total}</strong>
         </div>
       </section>
+
     </main>
   );
 };
