@@ -170,4 +170,58 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
+// GET /api/bookings/my-rentals
+router.get("/my-rentals", auth, async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      renterId: req.user._id,
+    })
+      .populate(
+        "itemId",
+        "title images location category pricePerDay"
+      )
+      .populate(
+        "ownerId",
+        "name email rating"
+      )
+      .sort({
+        createdAt: -1,
+      });
+
+    const currentStatuses = [
+      "pending",
+      "accepted",
+      "ready_for_pickup",
+      "active",
+      "returned",
+      "inspection",
+    ];
+
+    const current = bookings.filter((booking) =>
+      currentStatuses.includes(booking.status)
+    );
+
+    const past = bookings.filter((booking) =>
+      ["completed", "rejected", "cancelled"].includes(
+        booking.status
+      )
+    );
+
+    return res.status(200).json({
+      current,
+      past,
+      total: bookings.length,
+    });
+  } catch (error) {
+    console.error(
+      "Get my rentals error:",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Failed to load rentals.",
+    });
+  }
+});
+
 module.exports = router;
