@@ -7,7 +7,7 @@ import ItemDetailsPage from "./pages/ItemDetailsPage";
 import LoginPage from "./pages/LoginPage";
 import MyRentalsPage from "./pages/MyRentalsPage";
 import BookingDetailsPage from "./pages/BookingDetailsPage";
-
+import OwnerDashboardPage from "./pages/OwnerDashboardPage";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +19,8 @@ function App() {
           <Route path="/items/:id" element={<ItemDetailsPage />} />
           <Route path="/my-rentals" element={<MyRentalsPage />} />
           <Route path="/bookings/:id" element={<BookingDetailsPage />} />
+          <Route path="/owner-dashboard" element={<OwnerDashboardPage />} />
+          <Route path="/owner" element={<OwnerDashboardPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
