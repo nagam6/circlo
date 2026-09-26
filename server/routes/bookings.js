@@ -224,6 +224,59 @@ router.get("/my-rentals", auth, async (req, res) => {
   }
 });
 
+// GET /api/bookings/owner/requests
+router.get("/owner/requests", auth, async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      ownerId: req.user._id,
+      status: {
+        $in: [
+          "pending",
+          "accepted",
+          "ready_for_pickup",
+          "active",
+          "returned",
+          "inspection",
+        ],
+      },
+    })
+      .populate(
+        "itemId",
+        "title images location category pricePerDay"
+      )
+      .populate(
+        "renterId",
+        "name email rating"
+      )
+      .sort({
+        createdAt: -1,
+      });
+
+    const pending = bookings.filter(
+      (booking) => booking.status === "pending"
+    );
+
+    const active = bookings.filter(
+      (booking) => booking.status !== "pending"
+    );
+
+    return res.status(200).json({
+      pending,
+      active,
+      total: bookings.length,
+    });
+  } catch (error) {
+    console.error(
+      "Get owner rental requests error:",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Failed to load owner rental requests.",
+    });
+  }
+});
+
 // GET /api/bookings/:id
 router.get("/:id", auth, async (req, res) => {
   try {
