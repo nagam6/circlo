@@ -1,5 +1,4 @@
-import { FormEvent, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, type FormEvent } from "react";import { useLocation, useNavigate } from "react-router-dom";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -53,6 +52,10 @@ const LoginPage = () => {
         "circlo_user",
         JSON.stringify(data.user)
       );
+
+      window.dispatchEvent(
+  new Event("circlo-auth-change")
+);
 
       const from =
         location.state?.from || "/";
